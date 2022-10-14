@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+</head>
+<body>
+<form th:action="@{/registration}" th:object="${userForm}" method="POST">
+  Имя пользователя: <input type="text" th:field="${userForm.name}"><br>
+  Введите email: <input type="email" th:field="${userForm.email}"><br>
+  Введите пароль: <input type="password" th:field="${userForm.password}"><br>
+  <input type="submit" value="Зарегистрироваться"/>
+</form>
+<div th:if="${errorMessage}">Пользователь c такой почтой уже существует</div>
+<a th:href="@{/login}">Войти</a>
+</body>
+</html>

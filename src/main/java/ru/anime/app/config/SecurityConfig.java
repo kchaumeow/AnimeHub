@@ -11,20 +11,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import ru.anime.app.Services.UserDetailService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/","/registration").permitAll().anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+        http.authorizeRequests().antMatchers("/","/registration").permitAll().and().authorizeRequests().anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/auth_home").permitAll()
                 .and().logout().permitAll().logoutSuccessUrl("/");
     }
     @Override

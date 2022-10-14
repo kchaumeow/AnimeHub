@@ -16,9 +16,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User findUserById(Long id){
-        Optional<User> userFromDb = userRepository.findById(id);
-        return userFromDb.orElse(new User());
+    public Optional<User> findUserById(Long id){
+        return userRepository.findById(id);
     }
     public List<User> allUsers(){
         return userRepository.findAll();
@@ -27,6 +26,7 @@ public class UserService {
         String email = user.getEmail();
         if (userRepository.findByEmail(email) != null) return false;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(true);
         userRepository.save(user);
         log.info("Saving new User with email: {}", email);
         return true;

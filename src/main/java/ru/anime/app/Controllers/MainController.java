@@ -15,5 +15,8 @@ public class MainController {
     public String HomePage(){
         return "home";
     }
-    private final UserService userService;
+    @GetMapping("/auth_home")
+    public String AuthHomePage(){
+        return "auth_home";
+    }
 }

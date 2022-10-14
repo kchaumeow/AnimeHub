@@ -24,6 +24,8 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "name")
     private String name;
+    @Column(name = "active")
+    private Boolean active;
     @Column(name = "password")
     private String password;
 /*
@@ -61,7 +63,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }
 

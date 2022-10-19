@@ -5,5 +5,26 @@
   <title>AnimeHub</title>
 </head>
 <body>
-Homepage</body>
+<nav>
+  <button id="loginButton">Login</button>
+  <dialog id="loginFormDialog">
+    <form th:action="@{/login}" method="POST">
+      <label th:for="username">Введите email: </label>
+      <input type="email" name="username"><br><br>
+      <label th:for="password">Введите пароль: </label>
+      <input type="password" name="password"/><br><br>
+      <input type="submit" value="Войти"/>
+    </form>
+  </dialog>
+  <a th:href="@{/registration}">Зарегистрироваться</a>
+  <script>
+    document.getElementById("loginButton").addEventListener("click", () => {
+      document.getElementById("loginFormDialog").showModal();
+    })
+    document.getElementById("regigtrButton").addEventListener("click", () => {
+      document.getElementById("registrFormDialog").showModal();
+    })
+  </script>
+</nav>
+</body>
 </html>

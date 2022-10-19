@@ -1,6 +1,8 @@
 package ru.anime.app.Controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,5 +31,12 @@ public class UserController {
             return "registration";
         }
         return "redirect:/auth_home";
+    }
+    @GetMapping("/acc")
+    public String account(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("NAME",username);
+        return "account";
     }
 }

@@ -31,5 +31,4 @@ public class UserService {
         log.info("Saving new User with email: {}", email);
         return true;
     }
-
 }

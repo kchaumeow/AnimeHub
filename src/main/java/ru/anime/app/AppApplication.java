@@ -8,6 +8,6 @@ import ru.anime.app.Services.AnimeService;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class AppApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(AnimeService.class, args);
+		SpringApplication.run(AppApplication.class, args);
 	}
 }

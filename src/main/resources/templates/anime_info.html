@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Anime info</title>
+</head>
+<body>
+<p><b>Title: </b><span th:text="${anime.title}">VALUE</span></p>
+<p><b>Age restriction: </b><span th:text="${anime.age_restriction}">1</span>+</p>
+<p><b>Status: </b><span th:text="${anime.stat}">VALUE</span></p>
+<p><b>First release: </b><span th:text="${anime.first_release}"></span></p>
+<p><b>Last release: </b><span th:text="${anime.last_release}"></span></p>
+<p><b>Episode number: </b><span th:text="${anime.episode_num}">1</span></p>
+<p><b>Season number: </b><span th:text="${anime.season_num}">1</span></p>
+<p><b>Middle episode duration:</b> ~<span th:text="${anime.episode_duration}">1</span> min</p>
+<p><b>Description: </b><span th:text="${anime.description}">VALUE</span></p>
+<!--<br>-->
+<!--<p th:if="${useranime1==null}">Not added to list</p>-->
+<!--<p th:if="${useranime1!=null}" th:text="${useranime1.status}"></p>-->
+<!--<br>-->
+<div th:if="${user.email!=null}">
+  <form name="set_status" th:method="POST" th:object="${useranime}" th:action="@{/anime_info/{animeId}/change_status(animeId=${anime.id})}">
+
+<!--    <div th:if="${useranime1==null}">-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="notadded" th:checked>Not added<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewing">Viewing<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewed">Viewed<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="planned">Planned<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="postponed">Postponed<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="thrown">Thrown<br>-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="reviewing">Reviewing<br>-->
+<!--    </div>-->
+
+<!--    <div th:if="${useranime1!=null}">-->
+<!--      <input th:type="radio" th:name="status" th:field="*{status}" th:value="notadded">Not added<br>-->
+
+<!--      <div th:if="${useranime1.status=='viewing'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewing" th:checked>Viewing<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='viewing'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewing">Viewing<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status=='viewed'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewed" th:checked>Viewed<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='viewed'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewed">Viewed<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status=='planned'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="planned" th:checked>Planned<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='planned'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="planned">Planned<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status=='postponed'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="postponed" th:checked>Postponed<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='postponed'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="postponed">Postponed<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status=='trown'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="trown" th:checked>Thrown<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='trown'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="trown" >Thrown<br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status=='reviewing'}">-->
+<!--        <input th:type="radio" th:name="status" th:field="*{status}" th:value="reviewing" th:checked>Reviewing<br><br>-->
+<!--      </div>-->
+
+<!--      <div th:if="${useranime1.status!='reviewing'}">-->
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="notadded"checked>Not added<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewing">Viewing<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="viewed">Viewed<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="planned">Planned<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="postponed">Postponed<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="thrown">Thrown<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="reviewing">Reviewing<br>
+    <input th:type="radio" th:name="status" th:field="*{status}" th:value="reviewing">Reviewing<br><br>
+<!--      </div>-->
+
+<!--</div>-->
+
+
+    <input type="submit" value="Save status">
+  </form>
+  <br>
+  <br>
+  <a th:href="@{/auth_home}">All anime</a>
+</div>
+<div th:if="${user.email == null}">
+  <a th:href="@{/login}">Log in to add to your list</a>
+  <br>
+  <br>
+  <a th:href="@{/}">All anime</a>
+</div>
+</body>
+</html>

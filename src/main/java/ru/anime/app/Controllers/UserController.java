@@ -5,16 +5,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.anime.app.Models.User;
+import ru.anime.app.Services.AnimeService;
+import ru.anime.app.Services.UserAnimeService;
 import ru.anime.app.Services.UserService;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final AnimeService animeService;
+    private final UserAnimeService userAnimeService;
+
+    @ModelAttribute("user")
+    public User userForAll(Principal principal){
+        return userService.getUserByPrincipal(principal);
+    }
+    @GetMapping("/")
+    public String HomePage(Principal principal,Model model){
+        model.addAttribute("anime_list", animeService.getAnimeList());
+        return "home";
+    }
     @GetMapping("/login")
     public String login(){
         return "login";
@@ -30,7 +44,7 @@ public class UserController {
             model.addAttribute("errorMessage", "Пользователь с email " + user.getEmail() + " уже существует");
             return "registration";
         }
-        return "redirect:/auth_home";
+        return "redirect:/login";
     }
     @GetMapping("/acc")
     public String account(Model model){

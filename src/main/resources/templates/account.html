@@ -5,6 +5,22 @@
     <title th:text="${NAME}"></title>
 </head>
 <body>
-<p th:text="${NAME}"></p>
+<p th:text="${user.name}"></p>
+
+<div th:each="anime: ${anime_list}">
+    <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+    <div th:each="useranime: ${useranime_list}">
+        <div th:if="${anime.id==useranime.animeid}" th:text="${useranime.status}"></div>
+    </div>
+    <br>
+</div>
+
+<br>
+<a th:href="@{/auth_home}">All anime</a>
+<br>
+<hr>
+<form th:action="@{/logout}" th:method="post">
+    <input type="submit" value="Logout"/>
+</form>
 </body>
 </html>

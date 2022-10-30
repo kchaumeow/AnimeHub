@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>AnimeHub</title>
 </head>
+
 <body>
 <nav>
   <button id="loginButton">Login</button>
@@ -21,10 +22,15 @@
     document.getElementById("loginButton").addEventListener("click", () => {
       document.getElementById("loginFormDialog").showModal();
     })
-    document.getElementById("regigtrButton").addEventListener("click", () => {
+    document.getElementById("registrButton").addEventListener("click", () => {
       document.getElementById("registrFormDialog").showModal();
     })
   </script>
 </nav>
+<br>
+<div th:each="anime: ${anime_list}">
+  <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+</div>
+
 </body>
 </html>

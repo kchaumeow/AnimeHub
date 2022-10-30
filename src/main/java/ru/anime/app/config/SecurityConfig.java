@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/","/registration").permitAll().and().authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests().antMatchers("/","/registration","/anime_info/**").permitAll().and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/auth_home").permitAll()
                 .and().logout().permitAll().logoutSuccessUrl("/");
     }

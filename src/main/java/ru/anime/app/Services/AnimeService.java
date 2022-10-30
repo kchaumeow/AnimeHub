@@ -1,38 +1,56 @@
 package ru.anime.app.Services;
 
-import org.springframework.web.util.UriBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import ru.anime.app.Models.Anime;
+import ru.anime.app.Models.UserAnime;
+import ru.anime.app.Reposits.AnimeRepository;
+import ru.anime.app.Reposits.UserRepository;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+@Service
+@Slf4j
+@Component
+@RequiredArgsConstructor
 public class AnimeService {
-    {
-        BufferedReader reader;
-        String line;
-        StringBuilder responseContent = new StringBuilder();
-        try {
-            URL url = new URL("https://raw.githubusercontent.com/jikan-me/jikan-rest/master/storage/api-docs/api-docs.json");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+    private final AnimeRepository animeRepository;
+    List<Anime> animeList=new ArrayList<>();
 
-            int status = connection.getResponseCode();
-            if (status > 299){
-                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-                while ((line = reader.readLine()) != null){
-                    responseContent.append(line);
-                }
-                reader.close();
-            }else {
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public List<Anime> getAnimeList(){
+        return animeRepository.findAll();
     }
+    public Anime getAnime(Long id){
+        return animeRepository.findById(id).orElse(null);
+    }
+
+
+//    {
+//        BufferedReader reader;
+//        String line;
+//        StringBuilder responseContent = new StringBuilder();
+//        try {
+//            URL url = new URL("https://raw.githubusercontent.com/jikan-me/jikan-rest/master/storage/api-docs/api-docs.json");
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setConnectTimeout(5000);
+//            connection.setReadTimeout(5000);
+//
+//            int status = connection.getResponseCode();
+//            if (status > 299){
+//                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+//                while ((line = reader.readLine()) != null){
+//                    responseContent.append(line);
+//                }
+//                reader.close();
+//            }else {
+//                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

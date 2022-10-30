@@ -5,7 +5,38 @@
     <title>AnimeHub</title>
 </head>
 <body>
-Homepage2
+<a th:href="@{/account}">Go to my profile</a>
+<br><br>
+<form>
+    <input type="search">
+    <input type="submit" value="Search">
+</form>
+<!--<a th:href="@{/auth_home/{userId}(userId=${user.id})}" th:text="Go to my faves"></a>-->
+
+<!--<div th:each="anime: ${anime_list}">-->
+<!--    <a th:href="@{/auth_home/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>-->
+<!--    <div th:each="useranime: ${useranime_list}">-->
+<!--        <div th:with="condition=${anime.id==useranime.animeid}">-->
+<!--            <h3 th:if="condition" th:text="${useranime.status}">bebebe</h3>-->
+<!--            <h3 th:unless="condition" th:text="Add to faves">bububu</h3>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div th:each="useranime: ${useranime_list}">-->
+<!--    <a th:href="@{/auth_home/anime_info/{useranimeAnimeid}(useranimeAnimeid=${useranime.animeid})}" th:text="${useranime.status}">TITLE</a>-->
+<!--</div>-->
+<div th:each="anime: ${anime_list}">
+    <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+    <div th:each="useranime: ${useranime_list}">
+        <div th:if="${anime.id==useranime.animeid}">
+            <div th:text="${useranime.status}"></div>
+        </div>
+    </div>
+    <br>
+</div>
+
+<br>
+<hr>
 <form th:action="@{/logout}" th:method="post">
     <input type="submit" value="Logout"/>
 </form>

@@ -2,21 +2,20 @@ package ru.anime.app.Controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.anime.app.Reposits.UserRepository;
-import ru.anime.app.Services.UserService;
 import ru.anime.app.Models.User;
+import ru.anime.app.Services.AnimeService;
+import ru.anime.app.Services.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
-    private final UserRepository userRepository;
-    @GetMapping("/")
-    public String HomePage(){
-        return "home";
-    }
-    @GetMapping("/auth_home")
-    public String AuthHomePage(){
-        return "auth_home";
-    }
+    private final AnimeService animeService;
+    private final UserService userService;
+
+
+
+
+
 }

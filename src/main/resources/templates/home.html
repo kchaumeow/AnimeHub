@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>AnimeHub</title>
 </head>
-
 <body>
 <nav>
   <button id="loginButton">Login</button>
@@ -28,8 +27,15 @@
   </script>
 </nav>
 <br>
+<form th:method="get" th:action="@{/search}" th:object="${search_title}">
+  <input type="text" placeholder="Title" th:field="*{title}">
+  <input type="submit" value="Search">
+</form>
+<br>
 <div th:each="anime: ${anime_list}">
+  <img th:src="${anime.jpg}">
   <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+  <br>
 </div>
 
 </body>

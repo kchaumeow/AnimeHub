@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimeGenreDTO {
-    private Long mal_id;
-    private String name;
+public class AnimeAiredDTO {
+    private String from;
+    private String to;
 }

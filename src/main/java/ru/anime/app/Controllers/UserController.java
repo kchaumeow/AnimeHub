@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import ru.anime.app.DTO.AnimeDTO;
+import ru.anime.app.Models.Anime;
 import ru.anime.app.Models.User;
 import ru.anime.app.Services.AnimeApiService;
 import ru.anime.app.Services.AnimeService;
@@ -35,10 +36,7 @@ public class UserController {
     @GetMapping("/")
     public String HomePage(Principal principal, Model model) {
         model.addAttribute("anime_list", animeService.getAnimeList());
-        AnimeDTO anime = animeApiService.getAnimeById(1);
-        List<AnimeDTO> animeDTOList=animeApiService.getAnimeList(24);
-        System.out.println(anime.getTitle());
-        System.out.println(animeDTOList.get(1).getTitle());
+        model.addAttribute("search_title",new Anime());
         return "home";
     }
 
@@ -62,11 +60,11 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/acc")
-    public String account(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        model.addAttribute("NAME", username);
-        return "account";
-    }
+//    @GetMapping("/acc")
+//    public String account(Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        model.addAttribute("NAME", username);
+//        return "account";
+//    }
 }

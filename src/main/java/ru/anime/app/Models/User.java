@@ -20,22 +20,21 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
     @Column(name = "active")
     private Boolean active;
     @Column(name = "password")
     private String password;
 
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//    private List<UserAnime> userAnimeList=new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private List<UserAnime> userAnimeList=new ArrayList<>();
 
-//    @ManyToMany
-//    @JoinTable(name="user_anime",
-//    joinColumns = @JoinColumn(name = "userid" ),
-//    inverseJoinColumns = @JoinColumn(name = "animeid"))
-//    private List<Anime> AnimeList;
-
+    public void removeAnime(Anime anime){
+        UserAnime userAnime=userAnimeList.stream().filter(userAnime1 -> userAnime1.getAnime().equals(anime))
+                .findAny().orElse(null);
+        if(userAnime!=null) userAnimeList.remove(userAnime);
+    }
 
 /*
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

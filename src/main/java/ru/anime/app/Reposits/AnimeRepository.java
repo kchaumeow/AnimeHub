@@ -13,5 +13,6 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
     Anime findAnimeById(Long id);
     Anime findAnimeByTitle(String title);
     List<Anime> findAllById(Long id);
+    List<Anime> findAll();
 
 }

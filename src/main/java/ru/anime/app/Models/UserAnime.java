@@ -19,19 +19,22 @@ public class UserAnime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    @Column(name="userid")
-    private Long userid;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @JoinColumn(name="user")
+    private User user;
+
+//    @Column(name="userid")
+//    private Long userid;
+//    @Column(name="animeid")
+//    private Long animeid;
+
     @NonNull
-    @Column(name="animeid")
-    private Long animeid;
+    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @JoinColumn(name="anime")
+    private Anime anime;
+
     @NonNull
     @Column(name="stat")
     private String status="not added";
 
-
-//    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-//    @JoinColumn
-//    private User user;
-//    @OneToOne
-//    private Anime anime;
 }

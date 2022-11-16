@@ -7,28 +7,17 @@
 <body>
 <a th:href="@{/account}">Go to my profile</a>
 <br><br>
-<form>
-    <input type="search">
+<form th:method="get" th:action="@{/search}" th:object="${search_title}">
+    <input type="text" placeholder="Title" th:field="*{title}">
     <input type="submit" value="Search">
 </form>
-<!--<a th:href="@{/auth_home/{userId}(userId=${user.id})}" th:text="Go to my faves"></a>-->
-
-<!--<div th:each="anime: ${anime_list}">-->
-<!--    <a th:href="@{/auth_home/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>-->
-<!--    <div th:each="useranime: ${useranime_list}">-->
-<!--        <div th:with="condition=${anime.id==useranime.animeid}">-->
-<!--            <h3 th:if="condition" th:text="${useranime.status}">bebebe</h3>-->
-<!--            <h3 th:unless="condition" th:text="Add to faves">bububu</h3>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<div th:each="useranime: ${useranime_list}">-->
-<!--    <a th:href="@{/auth_home/anime_info/{useranimeAnimeid}(useranimeAnimeid=${useranime.animeid})}" th:text="${useranime.status}">TITLE</a>-->
-<!--</div>-->
+<br>
 <div th:each="anime: ${anime_list}">
+    <img th:src="${anime.getWebp()}">
     <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+
     <div th:each="useranime: ${useranime_list}">
-        <div th:if="${anime.id==useranime.animeid}">
+        <div th:if="${anime==useranime.anime}">
             <div th:text="${useranime.status}"></div>
         </div>
     </div>

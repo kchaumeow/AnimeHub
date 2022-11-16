@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.*;
@@ -23,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/","/registration","/anime_info/**").permitAll().and().authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests().antMatchers("/","/registration","/anime_info/**","/genre/**","/search").permitAll().and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/auth_home").permitAll()
                 .and().logout().permitAll().logoutSuccessUrl("/");
     }

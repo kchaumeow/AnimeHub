@@ -5,13 +5,17 @@
     <title th:text="${NAME}"></title>
 </head>
 <body>
+<form th:method="get" th:action="@{/search}" th:object="${search_title}">
+    <input type="text" placeholder="Title" th:field="*{title}">
+    <input type="submit" value="Search">
+</form>
+<br>
 <p th:text="${user.name}"></p>
 
-<div th:each="anime: ${anime_list}">
-    <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
-    <div th:each="useranime: ${useranime_list}">
-        <div th:if="${anime.id==useranime.animeid}" th:text="${useranime.status}"></div>
-    </div>
+<div th:each="useranime: ${anime_list}">
+    <img th:src="${useranime.anime.getWebp()}">
+    <a th:href="@{/anime_info/{animeId}(animeId=${useranime.anime.id})}" th:text="${useranime.anime.title}">TITLE</a>
+    <div th:text="${useranime.status}"></div>
     <br>
 </div>
 

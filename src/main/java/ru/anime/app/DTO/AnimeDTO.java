@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnimeDTO {
-    private int mal_id;
+    private Long mal_id;
     private AnimeImagesDTO images;
     private String title;
     private String title_english;
@@ -23,7 +23,9 @@ public class AnimeDTO {
     private String synopsis;
     private String season;
     private int year;
-    private List<AnimeStudioDTO> studios;
+    //private List<AnimeStudioDTO> studios;
     private List<AnimeGenreDTO> genres;
+    private AnimeAiredDTO aired;
 
 }
+

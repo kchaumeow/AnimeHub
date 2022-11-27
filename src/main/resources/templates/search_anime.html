@@ -7,9 +7,22 @@
 <body>
 <div th:if="${user!=null}">
     <a th:href="@{/account}">My profile</a>
+    <br>
+    <a th:href="@{/auth_home}">All anime</a>
     <br><br>
 </div>
-<form th:method="get" th:action="@{/search}" th:object="${search_title}">
+<div th:if="${user==null}">
+    <a th:href="@{/}">All anime</a>
+</div>
+<a th:href="@{/genres}">All genres</a>
+<br>
+
+<div th:if="${genre_name!=null and genre_name!='my_list'}">
+    <a th:href="@{/genres/${genre_name}}">All anime with genre <span th:text="${genre_name}"></span></a>
+    <br>
+</div>
+
+<form th:method="get" th:action="@{/search}" th:object="${search_anime}">
     <input type="text" placeholder="Title" th:field="*{title}" th:value="${query}">
     <input type="submit" value="Search">
 </form>
@@ -25,13 +38,6 @@
     </div>
 </div>
 <br>
-
-<div th:if="${user==null}">
-    <a th:href="@{/}">All anime</a>
-</div>
-<div th:if="${user!=null}">
-    <a th:href="@{/auth_home}">All anime</a>
-</div>
 
 </body>
 </html>

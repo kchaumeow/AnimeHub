@@ -2,15 +2,16 @@ package ru.anime.app.Services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.anime.app.Models.Anime;
 import ru.anime.app.Models.AnimeGenre;
 import ru.anime.app.Models.Genre;
 import ru.anime.app.Reposits.AnimeGenreRepository;
-import ru.anime.app.Reposits.AnimeRepository;
+import ru.anime.app.Reposits.GenreRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,21 +20,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeGenreService {
     private final AnimeGenreRepository animeGenreRepository;
-    private final AnimeRepository animeRepository;
+    private final GenreRepository genreRepository;
 
     public List<AnimeGenre> getAnimeGenreListByGenre(Genre genre){
+
         return animeGenreRepository.findAllByGenre(genre);
     }
-//    public List<AnimeGenre> getAnimeGenreListByAnime(Anime anime){
-//        return animeGenreRepository.findAllByAnime(anime);
-//    }
-//    public List<AnimeGenre> createAnimeGenreListByAnimeIDAndGenreList(Long anime_id,List<Genre> genreList){
-//        List<AnimeGenre> animeGenresList=new ArrayList<>();
-//        AnimeGenre animeGenre;
-//        for(int i=0;i<genreList.size();i++){
-//            animeGenre=new AnimeGenre(animeRepository.findAnimeById(anime_id),genreList.get(i));
-//            animeGenresList.add(animeGenre);
-//        }
-//        return animeGenresList;
-//    }
+
+    public List<AnimeGenre> getAnimeGenreListByAnimeAndGenre(String animeTitle,String genreName){
+        List<AnimeGenre> animeGenreList;
+        animeGenreList=animeGenreRepository.findAll().stream().filter(animeGenre ->
+                animeGenre.getGenre().getName().toLowerCase().equals(genreName.toLowerCase()) &&
+                animeGenre.getAnime().getTitle().toLowerCase().contains(animeTitle.toLowerCase())).toList();
+        return animeGenreList;
+    }
+
+    public Page<AnimeGenre> getAnimeGenreListByGenreNamePage(String genre_name, int p){
+        Pageable pageable= PageRequest.of(p,25);
+        Genre genre=genreRepository.findGenreByName(genre_name);
+        return animeGenreRepository.findAllByGenre(genre, pageable);
+    }
+
+
 }

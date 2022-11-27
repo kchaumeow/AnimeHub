@@ -6,8 +6,5 @@ import ru.anime.app.Services.AnimeService;
 @Controller
 @RequiredArgsConstructor
 public class MainController {
-    private final AnimeService animeService;
-
-
 
 }

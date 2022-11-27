@@ -1,6 +1,7 @@
 package ru.anime.app.Controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import ru.anime.app.Models.UserAnime;
 import ru.anime.app.Services.*;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -30,10 +32,27 @@ public class UserAnimeController {
     }
 
     @GetMapping("/auth_home")
-    public String AuthHomePage(@ModelAttribute("user") User user, Model model){
-        model.addAttribute("anime_list", animeService.getAnimeList());
+    public String AuthHome(@ModelAttribute("user") User user,Model model){
+        return AuthHomePage(user,1,model);
+    }
+
+    @GetMapping("/auth_home/{currentPage}")
+    public String AuthHomePage(@ModelAttribute("user") User user, @PathVariable("currentPage") int currentPage, Model model){
+
+        Page<Anime> animePage=animeService.getPage(currentPage);
+        int totalPages=animePage.getTotalPages();
+        int totalItems= (int) animePage.getTotalElements();
+        List<Anime> animeList=animePage.getContent();
+
         model.addAttribute("useranime_list",user.getUserAnimeList());
-        model.addAttribute("search_title",new Anime());
+        model.addAttribute("anime_list", animeList);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("totalItems",totalItems);
+        model.addAttribute("currentPage",currentPage);
+
+
+        model.addAttribute("search_anime",new Anime());
+
         return "auth_home";
     }
 
@@ -68,61 +87,15 @@ public class UserAnimeController {
         String username = authentication.getName();
         model.addAttribute("NAME",username);
         model.addAttribute("anime_list", user.getUserAnimeList());
-        model.addAttribute("search_title",new Anime());
+        model.addAttribute("search_anime",new Anime());
         return "account";
     }
-
-
-
-//    @ModelAttribute("user")
-//    public User userForAll(Principal principal){
-//        return userService.getUserByPrincipal(principal);
-//    }
-//
-//    @GetMapping("/auth_home")
-//    public String AuthHomePage(@ModelAttribute("user") User user, Model model){
-//        model.addAttribute("anime_list", animeService.getAnimeList());
-//        model.addAttribute("useranime_list",userAnimeService.getUserAnimeList(user.getId()));
-//        return "auth_home";
-//    }
-//
-//    @GetMapping("/anime_info/{id}")
-//    public String animeInfo(@PathVariable Long id, Model model,@ModelAttribute("user") User user) {
-//        model.addAttribute("anime", animeService.getAnime(id));
-//        model.addAttribute("useranime",new UserAnime());
-//        model.addAttribute("useranime1", userAnimeService.readUserAnime(user.getId(), id));
-//        return "anime_info";
-//    }
-//
-//    @PostMapping("/anime_info/{id}/change_status")
-//    public String addAnimeToUser(@PathVariable Long id,
-//                                 @ModelAttribute("useranime") UserAnime userAnime,
-//                                 Principal principal){
-//        userAnime.setAnimeid(id);
-//        userAnime.setUserid(userService.getUserByPrincipal(principal).getId());
-//        if(!userAnimeService.isExist(userAnime)){
-//            userAnimeService.createUserAnime(userAnime);
-//        }
-//        else if(userAnime.getStatus().equals("notadded")){
-//            userAnimeService.deleteUserAnime(userAnime);
-//        }
-//        else userAnimeService.updateUserAnime(userAnime);
-//        return "redirect:/anime_info/"+id;
-//    }
-//
-//    @GetMapping("/account")
-//    public String AccountPage(@ModelAttribute("user") User user,Model model){
-//        model.addAttribute("anime_list", userAnimeService.selectUserAnimeList(user.getId()));
-//        model.addAttribute("useranime_list",userAnimeService.getUserAnimeList(user.getId()));
-//        return "account";
-//    }
-
-//    @PostMapping("/anime_info/{id}")
-//    public String addAnimeToUser(@PathVariable Long id,
-//                                 @RequestParam("status_select") String status,
-//                                 @ModelAttribute UserAnime userAnime){
-//        userAnimeService.setUserAnime(user.getId(),id,status);
-//        return "anime_info";
-//    }
-
+    @GetMapping("/search/mylist")
+    public String searchAnime(@ModelAttribute("search_anime") Anime anime, Model model){
+        model.addAttribute("found_anime", userAnimeService.searchUserAnimeList(anime.getTitle()));
+        model.addAttribute("search_anime", new Anime());
+        String s=anime.getTitle();
+        model.addAttribute("query", s);
+        return "search_anime";
+    }
 }

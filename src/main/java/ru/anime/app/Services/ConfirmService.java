@@ -9,7 +9,6 @@ import ru.anime.app.DTO.AnimeGenreDTO;
 import ru.anime.app.Models.Anime;
 import ru.anime.app.Models.AnimeGenre;
 import ru.anime.app.Models.Genre;
-import ru.anime.app.Reposits.AnimeRepository;
 import ru.anime.app.Reposits.GenreRepository;
 
 import java.util.ArrayList;
@@ -76,12 +75,4 @@ public class ConfirmService {
         }
         return genreList;
     }
-
-//    public List<Genre> getGenreListFromGenreDTOList(List<AnimeGenreDTO> animeGenreDTOList){
-//        List<Genre> genreList=new ArrayList<>();
-//        for(int i=0;i<animeGenreDTOList.size();i++){
-//            genreList.add(getGenreFromGenreDTO(animeGenreDTOList.get(i)));
-//        }
-//        return genreList;
-//    }
 }

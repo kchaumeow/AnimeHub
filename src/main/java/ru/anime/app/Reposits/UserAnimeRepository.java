@@ -13,11 +13,6 @@ import java.util.*;
 @Repository
 public interface UserAnimeRepository extends JpaRepository<UserAnime,Long> {
     UserAnime findByUserAndAnime(User user, Anime anime);
-//
-//    List<UserAnime> findAllByUserid(Long userid);
-//
-//    boolean existsByUseridAndAnimeid(Long userid,Long animeid);
-//    void deleteByUseridAndAndId(Long userid,Long animeid);
     void deleteById(Long id);
     @Transactional
     void deleteByUserAndAnime(User user,Anime anime);

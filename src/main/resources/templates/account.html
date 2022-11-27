@@ -5,11 +5,17 @@
     <title th:text="${NAME}"></title>
 </head>
 <body>
-<form th:method="get" th:action="@{/search}" th:object="${search_title}">
-    <input type="text" placeholder="Title" th:field="*{title}">
-    <input type="submit" value="Search">
+
+<form th:action="@{/logout}" th:method="post">
+    <input type="submit" value="Logout"/>
 </form>
 <br>
+<a th:href="@{/auth_home}">All anime</a>
+<br>
+<form th:method="get" th:action="@{/search/mylist}" th:object="${search_anime}">
+    <input type="text" placeholder="Search in your list" th:field="*{title}">
+    <input type="submit" value="Search">
+</form>
 <p th:text="${user.name}"></p>
 
 <div th:each="useranime: ${anime_list}">
@@ -18,13 +24,5 @@
     <div th:text="${useranime.status}"></div>
     <br>
 </div>
-
-<br>
-<a th:href="@{/auth_home}">All anime</a>
-<br>
-<hr>
-<form th:action="@{/logout}" th:method="post">
-    <input type="submit" value="Logout"/>
-</form>
 </body>
 </html>

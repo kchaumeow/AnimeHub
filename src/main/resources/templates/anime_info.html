@@ -13,7 +13,7 @@
 <p><b>Type: </b><span th:text="${anime.TV}">VALUE</span></p>
 <p><b>Genres: </b></p>
 <div th:each="animegenre:${anime.animeGenres}">
-    <a th:href="@{/genre/{genreName}(genreName=${animegenre.genre.name})}" th:text="${animegenre.genre.name}"></a>
+    <a th:href="@{/genres/{genreName}(genreName=${animegenre.genre.name})}" th:text="${animegenre.genre.name}"></a>
 </div>
 
 <p><b>Episodes: </b><span th:text="${anime.episodes}"></span></p>
@@ -69,6 +69,7 @@
   <br>
   <a th:href="@{/}">All anime</a>
 </div>
+<a th:href="@{/genres}">All genres</a>
 </body>
 </html>
 

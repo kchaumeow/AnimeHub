@@ -23,19 +23,6 @@ public class DatabaseService {
     private final GenreRepository genreRepository;
     private final ConfirmService confirmService;
 
-//    public void saveGenreInDataBaseFromAPI(){
-//        List<Genre> genreList=confirmService.getGenreListFromGenreDTOList();
-//        for (int i=0;i<genreList.size();i++){
-//            genreRepository.save(genreList.get(i));
-//        }
-//    }
-//    public void saveAnimeInDataBaseFromApi(){
-//        List<Anime> animeList=confirmService.getAnimeListFromAnimeDTOList();
-//        for(int i=0;i<animeList.size();i++){
-//            animeRepository.save(animeList.get(i));
-//        }
-//    }
-
     @Scheduled(fixedRate = 24*60*60*1000)
     @Async
     public void updateGenreTable(){
@@ -45,9 +32,7 @@ public class DatabaseService {
             genre=genreRepository.findGenreById(genreList.get(i).getId());
             if(genre==null) genreRepository.save(genreList.get(i));
             else{
-                genre=genreList.get(i);
-                genreRepository.deleteById(genreList.get(i).getId());
-                genreRepository.save(genre);
+                genreRepository.updateGenre(genre.getId(),genre.getName());
             }
         }
     }
@@ -55,7 +40,7 @@ public class DatabaseService {
     @Scheduled(fixedDelay = 5000)
     public void updateAnimeTable() throws InterruptedException {
         int start=1;
-        int finish=1;
+        int finish=1034;
         for(int page=start;page<=finish;page++) {
             List<Anime> animeList = confirmService.getAnimeListFromAnimeDTOList(page);
             Anime anime;
@@ -63,12 +48,25 @@ public class DatabaseService {
                 anime = animeRepository.findAnimeById(animeList.get(i).getId());
                 if (anime == null) animeRepository.save(animeList.get(i));
                 else {
-                    anime = animeList.get(i);
-                    animeRepository.deleteById(animeList.get(i).getId());
-                    animeRepository.save(anime);
+                    animeRepository.updateAnime(anime.getId(),
+                            anime.getTitle(),
+                            anime.getTitle_english(),
+                            anime.getTitle_japanese(),
+                            anime.getTV(),
+                            anime.getEpisodes(),
+                            anime.getStatus(),
+                            anime.getDuration(),
+                            anime.getRating(),
+                            anime.getSynopsis(),
+                            anime.getSeason(),
+                            anime.getYear(),
+                            anime.getWebp(),
+                            anime.getJpg(),
+                            anime.getFrom(),
+                            anime.getTo());
                 }
             }
-//            Thread.sleep(2000);
+            Thread.sleep(2000);
         }
     }
 }

@@ -4,15 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.anime.app.Models.Anime;
-import ru.anime.app.Reposits.AnimeRepository;
 import ru.anime.app.Reposits.UserRepository;
 import ru.anime.app.Models.User;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j

@@ -26,17 +26,107 @@
     })
   </script>
 </nav>
+
+<!--<a th:href="@{/search}">Search</a>-->
 <br>
-<form th:method="get" th:action="@{/search}" th:object="${search_title}">
-  <input type="text" placeholder="Title" th:field="*{title}">
+<form th:method="get" th:action="@{/search}" th:object="${search_anime}">
+  <input type="text" placeholder="Title" th:field="*{title}" th:value="${query}">
   <input type="submit" value="Search">
 </form>
+<br>
+<a th:href="@{/genres}">All genres</a>
+<br><br>
+<nav>
+  Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
+  <br>
+  <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/home/1}">First</a>
+  <span th:unless="${currentPage > 1}">First</span> |
+
+  <a th:if="${currentPage < totalPages}" th:href="@{'/home/' + ${currentPage + 1}}">Next</a>
+  <span th:unless="${currentPage < totalPages}">Next</span> |
+
+  <span th:if="${currentPage<5}">
+    <span th:each="i: ${#numbers.sequence(1, 5)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+
+  <span th:if="${currentPage>=totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+  </span>
+
+  <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+
+  | <a th:if="${currentPage > 1}" th:href="@{'/home/' + ${currentPage - 1}}">Previous</a>
+  <span th:unless="${currentPage > 1}">Previous</span>
+
+  | <a th:if="${currentPage < totalPages -1}" th:href="@{'/home/' + ${totalPages - 1}}">Last</a>
+  <span th:unless="${currentPage < totalPages - 1}">Last</span>
+</nav>
+
 <br>
 <div th:each="anime: ${anime_list}">
   <img th:src="${anime.jpg}">
   <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
   <br>
 </div>
+
+<br>
+<br>
+<nav>
+  <br>
+  <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/home/1}">First</a>
+  <span th:unless="${currentPage > 1}">First</span> |
+
+  <a th:if="${currentPage < totalPages}" th:href="@{'/home/' + ${currentPage + 1}}">Next</a>
+  <span th:unless="${currentPage < totalPages}">Next</span> |
+
+  <span th:if="${currentPage<5}">
+    <span th:each="i: ${#numbers.sequence(1, 5)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+
+  <span th:if="${currentPage>=totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+  </span>
+
+  <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+      <a th:if="${i != currentPage}" th:href="@{'/home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+
+  | <a th:if="${currentPage > 1}" th:href="@{'/home/' + ${currentPage - 1}}">Previous</a>
+  <span th:unless="${currentPage > 1}">Previous</span>
+
+  | <a th:if="${currentPage < totalPages -1}" th:href="@{'/home/' + ${totalPages - 1}}">Last</a>
+  <span th:unless="${currentPage < totalPages - 1}">Last</span>
+  <br>
+  Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
+</nav>
 
 </body>
 </html>

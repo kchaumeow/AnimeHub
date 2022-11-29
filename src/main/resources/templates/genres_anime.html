@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime Hub</title>
+</head>
+<body>
+<div th:if="${user!=null}">
+    <a th:href="@{/account}">My profile</a>
+    <br><br>
+</div>
+<a th:href="@{/genres}">All genres</a>
+<br>
+<form th:method="get" th:action="@{/search/${genre_name}}" th:object="${search_anime}">
+    <input type="text" placeholder="Search in this genre" th:field="*{title}">
+    <input type="submit" value="Search">
+</form>
+<br>
+
+<span th:if="${animegenreList.isEmpty()}">
+    Anime with genre [[${genre_name}]] isn't found<br>
+</span>
+<span th:if="${!animegenreList.isEmpty()}">
+
+    <nav>
+      Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
+      <br>
+      <a  class="page-link" th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/1'}">First</a>
+      <span th:unless="${currentPage > 1}">First</span> |
+
+      <a th:if="${currentPage < totalPages}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage + 1}}">Next</a>
+      <span th:unless="${currentPage < totalPages}">Next</span> |
+
+      <span th:if="${currentPage<5}">
+        <span th:each="i: ${#numbers.sequence(1, 5)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+        ...
+      </span>
+
+      <span th:if="${currentPage>=totalPages - 5}">
+        ...
+        <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+      </span>
+
+      <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+        ...
+        <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+        ...
+      </span>
+
+      | <a th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage - 1}}">Previous</a>
+      <span th:unless="${currentPage > 1}">Previous</span>
+
+      | <a th:if="${currentPage < totalPages -1}" th:href="@{'/genres/'+${genre_name}+'/'+${totalPages - 1}}">Last</a>
+      <span th:unless="${currentPage < totalPages - 1}">Last</span>
+    </nav>
+
+    <b>Anime with genre <span th:text="${genre_name}"></span>: </b><br>
+    <div th:each="animegenre: ${animegenreList}">
+        <img th:src="${animegenre.anime.jpg}">
+        <a th:href="@{/anime_info/{animeId}(animeId=${animegenre.anime.id})}" th:text="${animegenre.anime.title}">TITLE</a>
+        <div th:each="useranime: ${useranimeList}">
+            <div th:if="${useranime==useranime.anime}">
+                <div th:text="${useranime.status}"></div>
+            </div>
+        </div>
+    </div>
+
+  <nav>
+      <br>
+      <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/genres/${genre_name}/1}">First</a>
+      <span th:unless="${currentPage > 1}">First</span> |
+
+      <a th:if="${currentPage < totalPages}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage + 1}}">Next</a>
+      <span th:unless="${currentPage < totalPages}">Next</span> |
+
+      <span th:if="${currentPage<5}">
+        <span th:each="i: ${#numbers.sequence(1, 5)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+        ...
+      </span>
+
+      <span th:if="${currentPage>=totalPages - 5}">
+        ...
+        <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+      </span>
+
+      <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+        ...
+        <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
+          <span th:unless="${i != currentPage}">[[${i}]]</span>
+        </span>
+        ...
+      </span>
+
+      | <a th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage - 1}}">Previous</a>
+      <span th:unless="${currentPage > 1}">Previous</span>
+
+      | <a th:if="${currentPage < totalPages -1}" th:href="@{'/genres/'+${genre_name}+'/'+${totalPages - 1}}">Last</a>
+      <span th:unless="${currentPage < totalPages - 1}">Last</span>
+      <br>
+      Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
+  </nav>
+</span>
+</body>
+</html>

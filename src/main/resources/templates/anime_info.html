@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Anime info</title>
+</head>
+<body>
+<img th:src="${anime.getWebp()}">
+<p><b>Title: </b><span th:text="${anime.title}">VALUE</span></p>
+<p><b>English title: </b><span th:text="${anime.title_english}">VALUE</span></p>
+<p><b>Japanese title: </b><span th:text="${anime.title_japanese}">VALUE</span></p>
+
+<p><b>Type: </b><span th:text="${anime.TV}">VALUE</span></p>
+<p><b>Genres: </b></p>
+<div th:each="animegenre:${anime.animeGenres}">
+    <a th:href="@{/genres/{genreName}(genreName=${animegenre.genre.name})}" th:text="${animegenre.genre.name}"></a>
+</div>
+
+<p><b>Episodes: </b><span th:text="${anime.episodes}"></span></p>
+<p><b>Duration: </b><span th:text="${anime.duration}">VALUE</span></p>
+
+<p><b>Rating: </b><span th:text="${anime.rating}"></span></p>
+
+<p><b>Status: </b><span th:text="${anime.status}">VALUE</span></p>
+<p><b>First release: </b><span th:text="${anime.from}"></span></p>
+<p><b>Last release: </b><span th:text="${anime.to}"></span></p>
+<p><b>Year: </b><span th:text="${anime.year}">VALUE</span></p>
+<p><b>Season: </b><span th:text="${anime.season}">VALUE</span></p>
+
+<p><b>Description: </b><span th:text="${anime.synopsis}">VALUE</span></p>
+
+<div th:if="${user!=null}">
+
+    <form th:object="${useranime}" th:method="post" th:action="@{/anime_info/{animeId}/change_status(animeId=${anime.id})}">
+        <select th:field="*{status}">
+            <div th:if="${useranime1==null}">
+                <option th:value="notadded" th:field="*{status}" selected>Not added</option>
+                <option th:value="viewing" th:field="*{status}">Viewing</option>
+                <option th:value="viewed" th:field="*{status}">Viewed</option>
+                <option th:value="planned" th:field="*{status}" selected>Planned</option>
+                <option th:value="postponed" th:field="*{status}">Postponed</option>
+                <option th:value="thrown" th:field="*{status}">Thrown</option>
+                <option th:value="reviewing" th:field="*{status}">Reviewing</option>
+            </div>
+            <div th:if="${useranime1!=null}">
+                <option th:value="notadded" th:field="*{status}">Not added</option>>
+                <option th:value="viewing" th:field="*{status}" th:selected="${useranime1.status=='viewing'}">Viewing</option>
+                <option th:value="viewed" th:field="*{status}" th:selected="${useranime1.status=='viewed'}">Viewed</option>
+                <option th:value="planned" th:field="*{status}" th:selected="${useranime1.status=='planned'}">Planned</option>
+                <option th:value="postponed" th:field="*{status}" th:selected="${useranime1.status=='postponed'}">Postponed</option>
+                <option th:value="thrown" th:field="*{status}" th:selected="${useranime1.status=='thrown'}">Thrown</option>
+                <option th:value="reviewing" th:field="*{status}" th:selected="${useranime1.status=='reviewing'}">Reviewing</option>
+            </div>
+
+        </select>
+        <input type="submit" value="Set status">
+    </form>
+
+    <br>
+    <br>
+    <a th:href="@{/account}">My anime</a>
+    <br>
+    <a th:href="@{/auth_home}">All anime</a>
+</div>
+
+<div th:if="${user== null}">
+  <a th:href="@{/login}">Log in to add to your list</a>
+  <br>
+  <br>
+  <a th:href="@{/}">All anime</a>
+</div>
+<a th:href="@{/genres}">All genres</a>
+</body>
+</html>
+

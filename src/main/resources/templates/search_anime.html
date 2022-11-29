@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime Hub</title>
+</head>
+<body>
+<div th:if="${user!=null}">
+    <a th:href="@{/account}">My profile</a>
+    <br>
+    <a th:href="@{/auth_home}">All anime</a>
+    <br><br>
+</div>
+<div th:if="${user==null}">
+    <a th:href="@{/}">All anime</a>
+</div>
+<a th:href="@{/genres}">All genres</a>
+<br>
+
+<div th:if="${genre_name!=null and genre_name!='my_list'}">
+    <a th:href="@{/genres/${genre_name}}">All anime with genre <span th:text="${genre_name}"></span></a>
+    <br>
+</div>
+
+<form th:method="get" th:action="@{/search}" th:object="${search_anime}">
+    <input type="text" placeholder="Title" th:field="*{title}" th:value="${query}">
+    <input type="submit" value="Search">
+</form>
+<br>
+<div th:if="${found_anime.isEmpty()}">
+    <p>Результат по запросу "<span th:text="${query}"></span>" не найден</p>
+</div>
+<div th:if="${!found_anime.isEmpty()}">
+    <p>Найдено по запросу "<span th:text="${query}"></span>" :</p>
+    <div th:each="anime: ${found_anime}">
+        <img th:src="${anime.jpg}">
+        <a th:href="@{/anime_info/{animeId}(animeId=${anime.id})}" th:text="${anime.title}">TITLE</a>
+    </div>
+</div>
+<br>
+
+</body>
+</html>

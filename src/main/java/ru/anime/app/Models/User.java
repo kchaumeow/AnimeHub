@@ -7,10 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
+import java.util.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="usr")
@@ -22,12 +20,22 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
     @Column(name = "active")
     private Boolean active;
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private List<UserAnime> userAnimeList=new ArrayList<>();
+
+    public void removeAnime(Anime anime){
+        UserAnime userAnime=userAnimeList.stream().filter(userAnime1 -> userAnime1.getAnime().equals(anime))
+                .findAny().orElse(null);
+        if(userAnime!=null) userAnimeList.remove(userAnime);
+    }
+
 /*
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

@@ -3,118 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <title>Anime Hub</title>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
 <body>
-<div th:if="${user!=null}">
-    <a th:href="@{/account}">My profile</a>
-    <br><br>
+<div class="shapka">
+    <div class="pod_shapka1">
+        <a th:if="${user!=null}" class="pod_shapka1" th:href="@{/auth_home}">
+            <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+            <p class="animeHub">AnimeHub</p>
+        </a>
+        <a th:if="${user==null}" class="pod_shapka1" th:href="@{/}">
+            <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+            <p class="animeHub">AnimeHub</p>
+        </a>
+    </div>
+    <div class="pod_shapka2">
+        <a th:if="${user!=null}" th:href="@{/auth_home}">Главная страница</a>
+        <a th:href="@{/genres}">Жанры</a>
+        <a th:if="${user==null}" th:href="@{/}">Главная страница</a>
+        <button th:if="${user==null}" class="logout_button" id="loginButton">Войти</button>
+        <a th:if="${user!=null}"th:href="@{/account}">Профиль</a>
+        <div th:if="${user!=null}">
+            <form class="logout_form" th:action="@{/logout}" th:method="post">
+                <input class="logout_button" type="submit" value="Выйти"/>
+            </form>
+        </div>
+    </div>
 </div>
-<a th:href="@{/genres}">All genres</a>
-<br>
-<form th:method="get" th:action="@{/search/${genre_name}}" th:object="${search_anime}">
-    <input type="text" placeholder="Search in this genre" th:field="*{title}">
-    <input type="submit" value="Search">
+<dialog class="dialog_window" id="loginFormDialog">
+    <a class="logo_in_window" th:href="@{/}">
+        <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+        <p class="animeHub">AnimeHub</p>
+    </a>
+    <p style="margin-left: 15px; margin-top: 20px; font-weight: 300; font-size: 24px; text-align: center">Authorisation</p>
+    <form class="form_window" th:action="@{/login}" method="POST">
+        <div>
+            <label th:for="username">Введите email: </label>
+            <div class="input_window">
+                <input type="email" name="username">
+            </div>
+        </div>
+        <div>
+            <label th:for="password">Введите пароль: </label>
+            <div class="input_window">
+                <input type="password" name="password"/>
+            </div>
+        </div>
+        <a style="margin-left: 15px;" th:href="@{/registration}">Зарегистрироваться</a>
+        <input class="button_window" type="submit" value="Войти"/>
+    </form>
+</dialog>
+<script>
+    document.getElementById("loginButton").addEventListener("click", () => {
+        document.getElementById("loginFormDialog").showModal();
+    })
+    document.getElementById("registrButton").addEventListener("click", () => {
+        document.getElementById("registrFormDialog").showModal();
+    })
+</script>
+<form class="search_poisk" th:method="get" th:action="@{/search/${genre_name}}" th:object="${search_anime}">
+    <input type="text" placeholder="Начните вводить название аниме" th:field="*{title}">
+    <input type="submit" value="Найти">
 </form>
-<br>
 
 <span th:if="${animegenreList.isEmpty()}">
-    Anime with genre [[${genre_name}]] isn't found<br>
+    <p style="margin-top: 40px; font-weight: 700; font-size: 25px; text-align: center">Anime with genre <span th:text="${genre_name}"></span> isn't found</p>
 </span>
 <span th:if="${!animegenreList.isEmpty()}">
+    <p style="margin-top: 40px; font-weight: 700; font-size: 25px; text-align: center">Anime with genre <span th:text="${genre_name}"></span>:</p>
+    <nav class="pudding">
+    <a class="page-link" th:if="${currentPage > 1}" th:href="@{/auth_home/1}">Начало</a>
+    <span th:unless="${currentPage > 1}">Начало</span>
 
-    <nav>
-      Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
-      <br>
-      <a  class="page-link" th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/1'}">First</a>
-      <span th:unless="${currentPage > 1}">First</span> |
+    <a th:if="${currentPage > 1}" th:href="@{'/auth_home/' + ${currentPage - 1}}">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20711 11.2071C5.81658 11.5976 5.18342 11.5976 4.79289 11.2071L0.292892 6.70711C-0.0976315 6.31658 -0.0976315 5.68342 0.292892 5.29289L4.79289 0.792893C5.18342 0.402369 5.81658 0.402369 6.20711 0.792893C6.59763 1.18342 6.59763 1.81658 6.20711 2.20711L3.41421 5L17 5C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7L3.41421 7L6.20711 9.79289C6.59763 10.1834 6.59763 10.8166 6.20711 11.2071Z" fill="#1E212C"/>
+        </svg>
+    </a>
+    <span th:unless="${currentPage > 1}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20711 11.2071C5.81658 11.5976 5.18342 11.5976 4.79289 11.2071L0.292892 6.70711C-0.0976315 6.31658 -0.0976315 5.68342 0.292892 5.29289L4.79289 0.792893C5.18342 0.402369 5.81658 0.402369 6.20711 0.792893C6.59763 1.18342 6.59763 1.81658 6.20711 2.20711L3.41421 5L17 5C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7L3.41421 7L6.20711 9.79289C6.59763 10.1834 6.59763 10.8166 6.20711 11.2071Z" fill="#1E212C"/>
+    </svg>
+  </span>
 
-      <a th:if="${currentPage < totalPages}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage + 1}}">Next</a>
-      <span th:unless="${currentPage < totalPages}">Next</span> |
+    <span th:if="${currentPage<5}">
+    <span th:each="i: ${#numbers.sequence(1, 5)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+    <span th:if="${currentPage>=totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+  </span>
 
-      <span th:if="${currentPage<5}">
-        <span th:each="i: ${#numbers.sequence(1, 5)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-        ...
-      </span>
-
-      <span th:if="${currentPage>=totalPages - 5}">
-        ...
-        <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-      </span>
-
-      <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
-        ...
-        <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-        ...
-      </span>
-
-      | <a th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage - 1}}">Previous</a>
-      <span th:unless="${currentPage > 1}">Previous</span>
-
-      | <a th:if="${currentPage < totalPages -1}" th:href="@{'/genres/'+${genre_name}+'/'+${totalPages - 1}}">Last</a>
-      <span th:unless="${currentPage < totalPages - 1}">Last</span>
-    </nav>
-
-    <b>Anime with genre <span th:text="${genre_name}"></span>: </b><br>
-    <div th:each="animegenre: ${animegenreList}">
+    <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
+     <a th:if="${currentPage < totalPages}" th:href="@{'/auth_home/' + ${currentPage + 1}}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7929 0.792893C12.1834 0.402369 12.8166 0.402369 13.2071 0.792893L17.7071 5.29289C18.0976 5.68342 18.0976 6.31658 17.7071 6.70711L13.2071 11.2071C12.8166 11.5976 12.1834 11.5976 11.7929 11.2071C11.4024 10.8166 11.4024 10.1834 11.7929 9.79289L14.5858 7H1C0.447715 7 0 6.55228 0 6C0 5.44772 0.447715 5 1 5H14.5858L11.7929 2.20711C11.4024 1.81658 11.4024 1.18342 11.7929 0.792893Z" fill="#1E212C"/>
+    </svg>
+</a>
+    <span th:unless="${currentPage < totalPages}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7929 0.792893C12.1834 0.402369 12.8166 0.402369 13.2071 0.792893L17.7071 5.29289C18.0976 5.68342 18.0976 6.31658 17.7071 6.70711L13.2071 11.2071C12.8166 11.5976 12.1834 11.5976 11.7929 11.2071C11.4024 10.8166 11.4024 10.1834 11.7929 9.79289L14.5858 7H1C0.447715 7 0 6.55228 0 6C0 5.44772 0.447715 5 1 5H14.5858L11.7929 2.20711C11.4024 1.81658 11.4024 1.18342 11.7929 0.792893Z" fill="#1E212C"/>
+      </svg>
+  </span>
+     <a th:if="${currentPage < totalPages -1}" th:href="@{'/auth_home/' + ${totalPages - 1}}">Конец</a>
+    <span th:unless="${currentPage < totalPages - 1}">Конец</span>
+</nav>
+    <div class="anilist">
+    <div class="anime_card" th:each="animegenre: ${animegenreList}">
         <img th:src="${animegenre.anime.jpg}">
-        <a th:href="@{/anime_info/{animeId}(animeId=${animegenre.anime.id})}" th:text="${animegenre.anime.title}">TITLE</a>
-        <div th:each="useranime: ${useranimeList}">
-            <div th:if="${useranime==useranime.anime}">
-                <div th:text="${useranime.status}"></div>
+        <a th:href="@{/anime_info/{animeId}(animeId=${animegenre.anime.id})}" >
+        <div class="anime_title">
+            <p th:text="${animegenre.anime.title}"></p>
+            <div style="margin-top: 60px">
+                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7929 0.792893C12.1834 0.402369 12.8166 0.402369 13.2071 0.792893L17.7071 5.29289C18.0976 5.68342 18.0976 6.31658 17.7071 6.70711L13.2071 11.2071C12.8166 11.5976 12.1834 11.5976 11.7929 11.2071C11.4024 10.8166 11.4024 10.1834 11.7929 9.79289L14.5858 7H1C0.447715 7 0 6.55228 0 6C0 5.44772 0.447715 5 1 5H14.5858L11.7929 2.20711C11.4024 1.81658 11.4024 1.18342 11.7929 0.792893Z" fill="#1E212C"/>
+                </svg>
+            </div>
+        </div>
+        </a>
+        <div style="position: absolute; z-index: 2;" th:each="useranime: ${useranimeList}">
+            <div th:if="${animegenre.anime==useranime.anime}">
+                <svg  width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.619 20.607C12.7074 21.4347 11.3039 21.4347 10.3923 20.595L10.2603 20.4751C3.96276 14.7773 -0.151656 11.0467 0.00428362 6.39248C0.0762559 4.35327 1.11985 2.39802 2.8112 1.24646C5.97799 -0.912706 9.88848 0.0949068 11.9997 2.56596C14.1109 0.0949068 18.0214 -0.924701 21.1881 1.24646C22.8795 2.39802 23.9231 4.35327 23.9951 6.39248C24.163 11.0467 20.0366 14.7773 13.739 20.4991L13.619 20.607Z" fill="#F75151"/>
+                </svg>
             </div>
         </div>
     </div>
+</div>
+  <nav class="pudding">
+    <a class="page-link" th:if="${currentPage > 1}" th:href="@{/auth_home/1}">Начало</a>
+    <span th:unless="${currentPage > 1}">Начало</span>
 
-  <nav>
-      <br>
-      <a  class="page-link" th:if="${currentPage > 1}" th:href="@{/genres/${genre_name}/1}">First</a>
-      <span th:unless="${currentPage > 1}">First</span> |
+    <a th:if="${currentPage > 1}" th:href="@{'/auth_home/' + ${currentPage - 1}}">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20711 11.2071C5.81658 11.5976 5.18342 11.5976 4.79289 11.2071L0.292892 6.70711C-0.0976315 6.31658 -0.0976315 5.68342 0.292892 5.29289L4.79289 0.792893C5.18342 0.402369 5.81658 0.402369 6.20711 0.792893C6.59763 1.18342 6.59763 1.81658 6.20711 2.20711L3.41421 5L17 5C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7L3.41421 7L6.20711 9.79289C6.59763 10.1834 6.59763 10.8166 6.20711 11.2071Z" fill="#1E212C"/>
+        </svg>
+    </a>
+    <span th:unless="${currentPage > 1}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20711 11.2071C5.81658 11.5976 5.18342 11.5976 4.79289 11.2071L0.292892 6.70711C-0.0976315 6.31658 -0.0976315 5.68342 0.292892 5.29289L4.79289 0.792893C5.18342 0.402369 5.81658 0.402369 6.20711 0.792893C6.59763 1.18342 6.59763 1.81658 6.20711 2.20711L3.41421 5L17 5C17.5523 5 18 5.44772 18 6C18 6.55228 17.5523 7 17 7L3.41421 7L6.20711 9.79289C6.59763 10.1834 6.59763 10.8166 6.20711 11.2071Z" fill="#1E212C"/>
+    </svg>
+  </span>
 
-      <a th:if="${currentPage < totalPages}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage + 1}}">Next</a>
-      <span th:unless="${currentPage < totalPages}">Next</span> |
+    <span th:if="${currentPage<5}">
+    <span th:each="i: ${#numbers.sequence(1, 5)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
 
-      <span th:if="${currentPage<5}">
-        <span th:each="i: ${#numbers.sequence(1, 5)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-        ...
-      </span>
+    <span th:if="${currentPage>=totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+  </span>
 
-      <span th:if="${currentPage>=totalPages - 5}">
-        ...
-        <span th:each="i: ${#numbers.sequence(totalPages - 5, totalPages - 1)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-      </span>
+    <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
+    ...
+    <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+      <a th:if="${i != currentPage}" th:href="@{'/auth_home/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${i != currentPage}">[[${i}]]</span>
+    </span>
+    ...
+  </span>
 
-      <span th:if="${currentPage>=5 and currentPage<totalPages - 5}">
-        ...
-        <span th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
-          <a th:if="${i != currentPage}" th:href="@{'/genres/'+${genre_name}+'/'+${i}}">[[${i}]]</a>
-          <span th:unless="${i != currentPage}">[[${i}]]</span>
-        </span>
-        ...
-      </span>
+     <a th:if="${currentPage < totalPages}" th:href="@{'/auth_home/' + ${currentPage + 1}}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7929 0.792893C12.1834 0.402369 12.8166 0.402369 13.2071 0.792893L17.7071 5.29289C18.0976 5.68342 18.0976 6.31658 17.7071 6.70711L13.2071 11.2071C12.8166 11.5976 12.1834 11.5976 11.7929 11.2071C11.4024 10.8166 11.4024 10.1834 11.7929 9.79289L14.5858 7H1C0.447715 7 0 6.55228 0 6C0 5.44772 0.447715 5 1 5H14.5858L11.7929 2.20711C11.4024 1.81658 11.4024 1.18342 11.7929 0.792893Z" fill="#1E212C"/>
+    </svg>
+</a>
+    <span th:unless="${currentPage < totalPages}">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7929 0.792893C12.1834 0.402369 12.8166 0.402369 13.2071 0.792893L17.7071 5.29289C18.0976 5.68342 18.0976 6.31658 17.7071 6.70711L13.2071 11.2071C12.8166 11.5976 12.1834 11.5976 11.7929 11.2071C11.4024 10.8166 11.4024 10.1834 11.7929 9.79289L14.5858 7H1C0.447715 7 0 6.55228 0 6C0 5.44772 0.447715 5 1 5H14.5858L11.7929 2.20711C11.4024 1.81658 11.4024 1.18342 11.7929 0.792893Z" fill="#1E212C"/>
+      </svg>
+  </span>
 
-      | <a th:if="${currentPage > 1}" th:href="@{'/genres/'+${genre_name}+'/'+${currentPage - 1}}">Previous</a>
-      <span th:unless="${currentPage > 1}">Previous</span>
 
-      | <a th:if="${currentPage < totalPages -1}" th:href="@{'/genres/'+${genre_name}+'/'+${totalPages - 1}}">Last</a>
-      <span th:unless="${currentPage < totalPages - 1}">Last</span>
-      <br>
-      Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages - 1}]]
-  </nav>
+     <a th:if="${currentPage < totalPages -1}" th:href="@{'/auth_home/' + ${totalPages - 1}}">Конец</a>
+    <span th:unless="${currentPage < totalPages - 1}">Конец</span>
+</nav>
 </span>
 </body>
 </html>

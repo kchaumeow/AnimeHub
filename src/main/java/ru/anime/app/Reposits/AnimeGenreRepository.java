@@ -18,4 +18,6 @@ public interface AnimeGenreRepository extends JpaRepository<AnimeGenre, Long> {
     List<AnimeGenre> findAllByGenre(Genre genre);
 
     Page<AnimeGenre> findAllByGenre(Genre genre, Pageable pageable);
+
+    AnimeGenre findAnimeGenreByAnimeAndGenre(Anime anime,Genre genre);
 }

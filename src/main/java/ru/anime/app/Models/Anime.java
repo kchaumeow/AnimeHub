@@ -53,7 +53,7 @@ public class Anime {
     @Column(name="year")
     private int year;
 
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.REFRESH)
     private List<AnimeGenre> animeGenres;
 
     @Column(name = "webp")

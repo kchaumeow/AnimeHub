@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
 <body>
-<p>Для зарегистрированных пользователей!</p>
-<form th:action="@{/login}" method="POST">
-    <label th:for="username">Введите email: </label>
-    <input type="email" name="username"><br><br>
-    <label th:for="password">Введите пароль: </label>
-    <input type="password" name="password"/><br><br>
-    <input type="submit" value="Войти"/>
+<div class="shapka">
+    <div class="pod_shapka1">
+        <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+        <p class="animeHub">AnimeHub</p>
+    </div>
+    <div class="pod_shapka2">
+        <a th:href="@{/}">Главная страница</a>
+        <a th:href="@{/genres}">Жанры</a>
+    </div>
+</div>
+<p style="margin-left: 15px; margin-top: 20px; font-weight: 300; font-size: 24px; text-align: center">Authorisation</p>
+<form class="form_window" th:action="@{/login}" method="POST">
+    <div>
+        <label th:for="username">Введите email: </label>
+        <div class="input_window">
+            <input type="email" name="username">
+        </div>
+    </div>
+    <div>
+        <label th:for="password">Введите пароль: </label>
+        <div class="input_window">
+            <input type="password" name="password"/>
+        </div>
+    </div>
+    <div style="margin-left: 15px; color: #F65151" th:if="${param.error}">Ошибка авторизации</div>
+    <a style="margin-left: 15px;" th:href="@{/registration}">Зарегистрироваться</a>
+    <input class="button_window" type="submit" value="Войти"/>
 </form>
-<div th:if="${param.error}">Ошибка авторизации</div>
-<a th:href="@{/registration}">Зарегистрироваться</a>
 </body>
 </html>

@@ -3,26 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${NAME}"></title>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
 <body>
+<div class="shapka">
+    <div class="pod_shapka1">
+        <a th:if="${user!=null}" class="pod_shapka1" th:href="@{/auth_home}">
+            <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+            <p class="animeHub">AnimeHub</p>
+        </a>
+        <a th:if="${user==null}" class="pod_shapka1" th:href="@{/}">
+            <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+            <p class="animeHub">AnimeHub</p>
+        </a>
+    </div>
+    <div class="pod_shapka2">
+        <a th:href="@{/auth_home}">Главная страница</a>
+        <a th:href="@{/genres}">Жанры</a>
+        <div>
+            <form class="logout_form" th:action="@{/logout}" th:method="post">
+                <input class="logout_button" type="submit" value="Выйти"/>
+            </form>
+        </div>
 
-<form th:action="@{/logout}" th:method="post">
-    <input type="submit" value="Logout"/>
-</form>
-<br>
-<a th:href="@{/auth_home}">All anime</a>
-<br>
-<form th:method="get" th:action="@{/search/mylist}" th:object="${search_anime}">
-    <input type="text" placeholder="Search in your list" th:field="*{title}">
-    <input type="submit" value="Search">
-</form>
-<p th:text="${user.name}"></p>
-
-<div th:each="useranime: ${anime_list}">
-    <img th:src="${useranime.anime.getWebp()}">
-    <a th:href="@{/anime_info/{animeId}(animeId=${useranime.anime.id})}" th:text="${useranime.anime.title}">TITLE</a>
-    <div th:text="${useranime.status}"></div>
-    <br>
+    </div>
 </div>
+
+<p style="margin-left: 15px; margin-top: 20px; font-weight: 500; font-size: 24px; text-align: center" th:text="${user.name}"></p>
+<p style="margin-left: 15px; margin-top: 20px; font-weight: 300; font-size: 24px; text-align: center">Your anime list:</p>
+<div class="anilist">
+    <div class="anime_card" th:each="useranime: ${anime_list}">
+        <img th:src="${useranime.anime.getWebp()}">
+        <a th:href="@{/anime_info/{animeId}(animeId=${useranime.anime.id})}">
+        <div class="anime_title">
+            <p th:text="${useranime.anime.title}"></p>
+            <div style="margin-top: 60px" th:text="${useranime.status}"></div>
+        </div>
+        </a>
+    </div>
+</div>
+
 </body>
 </html>

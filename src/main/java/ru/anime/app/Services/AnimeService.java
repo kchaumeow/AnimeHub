@@ -37,7 +37,7 @@ public class AnimeService {
     }
 
     public Page<Anime> getPage(int p){
-        Pageable pageable= PageRequest.of(p,25);
+        Pageable pageable= PageRequest.of(p,24);
         return animeRepository.findAll(pageable);
     }
 

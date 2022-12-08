@@ -22,6 +22,7 @@ public class DatabaseService {
     private final AnimeRepository animeRepository;
     private final GenreRepository genreRepository;
     private final ConfirmService confirmService;
+    public final AnimeGenreService animeGenreService;
 
     @Scheduled(fixedRate = 24*60*60*1000)
     @Async
@@ -39,9 +40,9 @@ public class DatabaseService {
     @Scheduled(fixedRate = 24*60*60*1000)
     @Scheduled(fixedDelay = 5000)
     public void updateAnimeTable() throws InterruptedException {
-        int start=1;
-        int finish=1034;
-        for(int page=start;page<=finish;page++) {
+        int start = 1;
+        int finish = 1034;
+        for (int page = start; page <= finish; page++) {
             List<Anime> animeList = confirmService.getAnimeListFromAnimeDTOList(page);
             Anime anime;
             for (int i = 0; i < animeList.size(); i++) {
@@ -69,4 +70,12 @@ public class DatabaseService {
             Thread.sleep(2000);
         }
     }
+//    public void updateAnimeGenreTable(){
+//        List<Anime> animeList=animeRepository.findAll();
+//        for(int i=0;i<animeList.size();i++){
+//            for(int j=0;j<animeList.get(i).getAnimeGenres().size();j++){
+//                animeGenreService.update(animeList.get(i),animeList.get(i).getAnimeGenres().get(j).getGenre());
+//            }
+//        }
+//    }
 }

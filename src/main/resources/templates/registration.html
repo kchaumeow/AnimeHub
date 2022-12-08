@@ -3,15 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <title>Registration</title>
+  <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
 <body>
-<form th:action="@{/registration}" th:object="${userForm}" method="POST">
-  Имя пользователя: <input type="text" th:field="${userForm.name}"><br>
-  Введите email: <input type="email" th:field="${userForm.email}"><br>
-  Введите пароль: <input type="password" th:field="${userForm.password}"><br>
-  <input type="submit" value="Зарегистрироваться"/>
+<div class="shapka">
+  <div class="pod_shapka1">
+    <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+    <p class="animeHub">AnimeHub</p>
+  </div>
+  <div class="pod_shapka2">
+    <button class="logout_button" id="loginButton">Войти</button>
+    <a th:href="@{/}">Главная страница</a>
+    <a th:href="@{/genres}">Жанры</a>
+  </div>
+</div>
+<dialog class="dialog_window" id="loginFormDialog">
+  <a class="logo_in_window" th:href="@{/}">
+    <img alt="Sharingan" srcset="https://img.icons8.com/plasticine/512/sharingan.png 2x" style="width: 80px; height: 80px;">
+    <p class="animeHub">AnimeHub</p>
+  </a>
+  <p style="margin-top: 20px; font-weight: 300; font-size: 24px; text-align: center">Authorisation</p>
+  <form class="form_window" th:action="@{/login}" method="POST">
+    <div>
+      <label th:for="username">Введите email: </label>
+      <div class="input_window">
+        <input type="email" name="username">
+      </div>
+    </div>
+    <div>
+      <label th:for="password">Введите пароль: </label>
+      <div class="input_window">
+        <input type="password" name="password"/>
+      </div>
+    </div>
+    <a th:href="@{/registration}">Зарегистрироваться</a>
+    <input class="button_window" type="submit" value="Войти"/>
+  </form>
+
+</dialog>
+<script>
+  document.getElementById("loginButton").addEventListener("click", () => {
+    document.getElementById("loginFormDialog").showModal();
+  })
+  document.getElementById("registrButton").addEventListener("click", () => {
+    document.getElementById("registrFormDialog").showModal();
+  })
+</script>
+<p style="margin-left: 15px; margin-top: 20px; font-weight: 300; font-size: 24px; text-align: center">Registration</p>
+<form class="form_window" th:action="@{/registration}" th:object="${userForm}" method="POST">
+  <div>
+    <p>Имя пользователя: </p>
+    <div class="input_window">
+      <input type="text" th:field="${userForm.name}">
+    </div>
+  </div>
+  <div>
+    <p>Введите email: </p>
+    <div class="input_window">
+      <input type="email" th:field="${userForm.email}">
+    </div>
+  </div>
+  <div>
+    <p>Введите пароль: </p>
+    <div class="input_window">
+      <input type="password" th:field="${userForm.password}">
+    </div>
+  </div>
+  <div style="color: #F65151" th:if="${errorMessage}">Пользователь c такой почтой уже существует</div>
+  <input class="button_window" type="submit" value="Зарегистрироваться"/>
 </form>
-<div th:if="${errorMessage}">Пользователь c такой почтой уже существует</div>
-<a th:href="@{/login}">Войти</a>
+
 </body>
 </html>

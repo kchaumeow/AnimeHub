@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.anime.app.Models.Anime;
 import ru.anime.app.Models.AnimeGenre;
 import ru.anime.app.Models.Genre;
 import ru.anime.app.Reposits.AnimeGenreRepository;
@@ -30,16 +31,26 @@ public class AnimeGenreService {
     public List<AnimeGenre> getAnimeGenreListByAnimeAndGenre(String animeTitle,String genreName){
         List<AnimeGenre> animeGenreList;
         animeGenreList=animeGenreRepository.findAll().stream().filter(animeGenre ->
-                animeGenre.getGenre().getName().toLowerCase().equals(genreName.toLowerCase()) &&
+                animeGenre.getGenre().getName().equalsIgnoreCase(genreName) &&
                 animeGenre.getAnime().getTitle().toLowerCase().contains(animeTitle.toLowerCase())).toList();
         return animeGenreList;
     }
 
     public Page<AnimeGenre> getAnimeGenreListByGenreNamePage(String genre_name, int p){
-        Pageable pageable= PageRequest.of(p,25);
+        Pageable pageable= PageRequest.of(p,24);
         Genre genre=genreRepository.findGenreByName(genre_name);
         return animeGenreRepository.findAllByGenre(genre, pageable);
     }
+
+//    public void update(Anime anime, Genre genre){
+//        AnimeGenre animeGenre= new AnimeGenre(anime,genre);
+//        AnimeGenre animeGenre1=animeGenreRepository.findAnimeGenreByAnimeAndGenre(anime,genre);
+//        if(animeGenre1==null) animeGenreRepository.save(animeGenre);
+//        else{
+//            animeGenreRepository.delete(animeGenre1);
+//            animeGenreRepository.save(animeGenre);
+//        }
+//    }
 
 
 }

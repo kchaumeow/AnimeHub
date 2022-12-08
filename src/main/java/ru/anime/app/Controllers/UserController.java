@@ -20,6 +20,7 @@ public class UserController {
     private final UserService userService;
     private final AnimeService animeService;
 
+    private final DatabaseService databaseService;
     @ModelAttribute("user")
     public User userForAll(Principal principal) {
         return userService.getUserByPrincipal(principal);
@@ -31,6 +32,7 @@ public class UserController {
     }
     @GetMapping("/home/{currentPage}")
     public String HomePage(Principal principal, @PathVariable("currentPage") int currentPage, Model model) {
+        //databaseService.updateAnimeGenreTable();
         Page<Anime> animePage=animeService.getPage(currentPage);
         int totalPages=animePage.getTotalPages();
         int totalItems= (int) animePage.getTotalElements();

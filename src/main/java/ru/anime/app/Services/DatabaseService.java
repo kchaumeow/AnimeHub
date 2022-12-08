@@ -7,7 +7,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.anime.app.Models.Anime;
+import ru.anime.app.Models.AnimeGenre;
 import ru.anime.app.Models.Genre;
+import ru.anime.app.Reposits.AnimeGenreRepository;
 import ru.anime.app.Reposits.AnimeRepository;
 import ru.anime.app.Reposits.GenreRepository;
 
@@ -21,6 +23,7 @@ public class DatabaseService {
 
     private final AnimeRepository animeRepository;
     private final GenreRepository genreRepository;
+    private final AnimeGenreRepository animeGenreRepository;
     private final ConfirmService confirmService;
     public final AnimeGenreService animeGenreService;
 
@@ -65,17 +68,17 @@ public class DatabaseService {
                             anime.getJpg(),
                             anime.getFrom(),
                             anime.getTo());
+                    Anime anime1=animeList.get(i);
+                    for(int j=0;j<anime1.getAnimeGenres().size();j++){
+                        AnimeGenre animeGenre=new AnimeGenre(anime1,anime1.getAnimeGenres().get(j).getGenre());
+                        AnimeGenre animeGenre1=animeGenreRepository.findAnimeGenreByAnimeAndGenre(anime1,
+                                anime1.getAnimeGenres().get(j).getGenre());
+                        if(animeGenre1==null) animeGenreRepository.save(animeGenre);
+                        else animeGenreRepository.updateAnimeGenre(animeGenre1.getId(),animeGenre.getAnime(),animeGenre.getGenre());
+                    }
                 }
             }
             Thread.sleep(2000);
         }
     }
-//    public void updateAnimeGenreTable(){
-//        List<Anime> animeList=animeRepository.findAll();
-//        for(int i=0;i<animeList.size();i++){
-//            for(int j=0;j<animeList.get(i).getAnimeGenres().size();j++){
-//                animeGenreService.update(animeList.get(i),animeList.get(i).getAnimeGenres().get(j).getGenre());
-//            }
-//        }
-//    }
 }

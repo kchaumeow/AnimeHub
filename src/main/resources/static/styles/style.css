@@ -166,8 +166,8 @@ a, button,input{
     margin-bottom: 20px;
 }
 .heart{
-    left: 150px;
-    z-index: 2;
+    margin-left: 250px;
+    margin-top: 30px;
 }
 .anime_card:hover{
     transform: scale(1.1);

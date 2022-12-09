@@ -136,8 +136,8 @@
         </div>
         </a>
         <div style="position: absolute; z-index: 2;" th:each="useranime: ${useranimeList}">
-            <div th:if="${animegenre.anime==useranime.anime}">
-                <svg  width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="heart" th:if="${animegenre.anime==useranime.anime}">
+                <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.619 20.607C12.7074 21.4347 11.3039 21.4347 10.3923 20.595L10.2603 20.4751C3.96276 14.7773 -0.151656 11.0467 0.00428362 6.39248C0.0762559 4.35327 1.11985 2.39802 2.8112 1.24646C5.97799 -0.912706 9.88848 0.0949068 11.9997 2.56596C14.1109 0.0949068 18.0214 -0.924701 21.1881 1.24646C22.8795 2.39802 23.9231 4.35327 23.9951 6.39248C24.163 11.0467 20.0366 14.7773 13.739 20.4991L13.619 20.607Z" fill="#F75151"/>
                 </svg>
             </div>
